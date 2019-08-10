@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getTableData } from '../store/actions';
 
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.min.css';
+
 const $ = require("jquery");
 $.Datatable = require("datatables.net-bs");
 
@@ -30,7 +33,7 @@ class Tbl extends Component {
     return (
       <div>
         <table
-          className="display"
+          className="table table-striped table-bordered"
           width="100% "
           ref={el => {
             this.tbl = el;

@@ -3,16 +3,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getTableData } from '../store/actions';
 
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.min.css';
+import '../../node_modules/datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css';
+
 const $ = require("jquery");
+$.Datatable = require("datatables.net");
 $.Datatable = require("datatables.net-bs");
 
-require( 'datatables.net-buttons-bs' )();
-require( 'datatables.net-buttons/js/buttons.colVis.js' )();
-require( 'datatables.net-buttons/js/buttons.flash.js' )();
-require( 'datatables.net-buttons/js/buttons.html5.js' )();
-require( 'datatables.net-buttons/js/buttons.print.js' )();
 require( 'datatables.net-fixedcolumns-bs' );
-require( 'datatables.net-scroller-bs' );
 
 class TblFixedCol extends Component {
   componentDidMount = () => {
@@ -38,9 +37,9 @@ class TblFixedCol extends Component {
       fixedColumns:   true
     });
     return (
-      <div>
+      <div className="fixed-table">
         <table
-          className="stripe row-border order-column"
+          className="table table-striped table-bordered nowrap"
           width="100% "
           ref={el => {
             this.tbl = el;
