@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import { addTableData } from '../store/actions';
+import { addTableData, fetchJsFromCDN } from '../store/actions';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+require('../styles/datepicker.css');
+
 const $ = require("jquery");
+global.jQuery = $;
 
 class Frm extends Component {
-  componentDidMount = () => {};
-
+  componentDidMount = () => {
+    this.props.fetchJsFromCDN('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js').then(
+      setTimeout(() => $(".datepicker").datepicker({format: 'yyyy/mm/dd'}), 1000)
+    );
+  };
+  
   componentWillUnmount = () => {};
 
   handleAdd = (event) => {
@@ -77,8 +84,11 @@ class Frm extends Component {
               </div>
             </div>
             <div className="col-xs-4">
-              <div className="form-group">
-                <label>Start Date :</label>
+              <label>Start Date :</label>
+              <div className="input-group date datepicker">
+                <span className="input-group-addon">
+                  <span className="fa fa-calendar"></span>
+                </span>
                 <input
                   type="text"
                   className="form-control"
@@ -99,7 +109,6 @@ class Frm extends Component {
               </div>
             </div>
           </div>
-
           <input type="submit" className="btn btn-block btn-info btn-admins-only" value="Submit" />
         </form>
       </React.Fragment>
@@ -112,4 +121,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { addTableData })(Frm));
+export default withRouter(connect(mapStateToProps, { addTableData, fetchJsFromCDN })(Frm));
