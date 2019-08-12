@@ -15,7 +15,7 @@ class Frm extends Component {
   handleAdd = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    const send_data = Array();
+    const send_data = [];
     for (let name of data.keys()) {
       send_data.push(data.get(name));
     }
