@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import axios from "axios";
+import { addTableData } from '../store/actions';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,13 +19,7 @@ class Frm extends Component {
     for (let name of data.keys()) {
       send_data.push(data.get(name));
     }
-    axios({
-      method: "post",
-      url: "http://localhost:3100/employee",
-      data: send_data
-    }).then(resp => {
-      console.log(resp);
-    });
+    this.props.addTableData(send_data);
 
     $("form")[0].reset();
   };
@@ -112,4 +107,7 @@ class Frm extends Component {
   }
 }
 
-export default withRouter(Frm);
+const mapStateToProps = state => {
+}
+
+export default withRouter(connect(mapStateToProps, { addTableData })(Frm));

@@ -12,3 +12,13 @@ export const getTableData = (values) => async dispatch => {
         })
     });
 }
+
+export const addTableData = (values) => async dispatch => {
+    axios({
+      method: "post",
+      url: "http://localhost:3100/employee",
+      data: values
+    }).then(resp => {
+      console.log(resp);
+    });
+}
