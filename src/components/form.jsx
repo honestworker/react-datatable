@@ -108,6 +108,8 @@ class Frm extends Component {
 }
 
 const mapStateToProps = state => {
+  return {
+  }
 }
 
 export default withRouter(connect(mapStateToProps, { addTableData })(Frm));
