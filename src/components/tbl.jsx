@@ -1,25 +1,28 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getTableData } from '../store/actions';
+import { getTableData, fetchJsFromCDN } from '../store/actions';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.min.css';
+require('../styles/datatable.css');
 
 const $ = require("jquery");
-$.Datatable = require("datatables.net-bs");
+global.jQuery = $;
 
 class Tbl extends Component {
   componentDidMount = () => {
     this.props.getTableData();
+    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js');
+    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js')
+      .then(resp => this.dataTableInit());
   };
 
   componentWillUnmount = () => {
+    this.table.destroy();
   };
 
-  render() {
+  dataTableInit = () => {
     this.$tbl = $(this.tbl);
-    this.$tbl.DataTable({
+    this.table = this.$tbl.DataTable({
       data: this.props.dataSet,
       columns: [
         { title: "Name" },
@@ -30,6 +33,9 @@ class Tbl extends Component {
         { title: "Salary" }
       ]
     });
+  };
+
+  render() {
     return (
       <div>
         <table
@@ -50,4 +56,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { getTableData })(Tbl));
+export default withRouter(connect(mapStateToProps, { getTableData, fetchJsFromCDN })(Tbl));

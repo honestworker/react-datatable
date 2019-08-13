@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { addTableData, fetchJsFromCDN } from '../store/actions';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
 require('../styles/datepicker.css');
 
 const $ = require("jquery");
@@ -13,7 +11,7 @@ global.jQuery = $;
 class Frm extends Component {
   componentDidMount = () => {
     this.props.fetchJsFromCDN('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js').then(
-      setTimeout(() => $(".datepicker").datepicker({format: 'yyyy/mm/dd'}), 1000)
+      resp => $(".datepicker").datepicker({format: 'yyyy/mm/dd'})
     );
   };
   

@@ -1,28 +1,29 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getTableData } from '../store/actions';
+import { getTableData, fetchJsFromCDN } from '../store/actions';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.min.css';
-import '../../node_modules/datatables.net-fixedcolumns-bs/css/fixedColumns.bootstrap.min.css';
+require('../styles/fixedcolumntable.css');
 
 const $ = require("jquery");
-$.Datatable = require("datatables.net");
-$.Datatable = require("datatables.net-bs");
-
-require( 'datatables.net-fixedcolumns-bs' );
+global.jQuery = $;
 
 class TblFixedCol extends Component {
   componentDidMount = () => {
     this.props.getTableData();
+    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js');
+    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js');
+    this.props.fetchJsFromCDN('https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js')
+      .then(resp => this.dataTableInit());
   };
 
-  componentWillUnmount = () => {};
+  componentWillUnmount = () => {
+    this.table.destroy();
+  };
 
-  render() {
+  dataTableInit = () => {
     this.$tbl = $(this.tbl);
-    this.$tbl.DataTable({
+    this.table = this.$tbl.DataTable({
       data: this.props.dataSet,
       columns: [
         { title: "Name" },
@@ -36,6 +37,9 @@ class TblFixedCol extends Component {
       scrollCollapse: true,
       fixedColumns:   true
     });
+  };
+
+  render() {
     return (
       <div className="fixed-table">
         <table
@@ -56,5 +60,5 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { getTableData })(TblFixedCol));
+export default withRouter(connect(mapStateToProps, { getTableData, fetchJsFromCDN })(TblFixedCol));
 
