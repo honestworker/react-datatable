@@ -15,7 +15,8 @@ class Frm extends Component {
     );
   };
   
-  componentWillUnmount = () => {};
+  componentWillUnmount = () => {
+  };
 
   handleAdd = (event) => {
     event.preventDefault();

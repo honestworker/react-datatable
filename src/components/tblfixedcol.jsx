@@ -18,7 +18,9 @@ class TblFixedCol extends Component {
   };
 
   componentWillUnmount = () => {
-    this.table.destroy();
+    if (typeof this.table !== 'undefined') {
+      this.table.destroy();
+    }
   };
 
   dataTableInit = () => {
