@@ -23,26 +23,29 @@ export const addTableData = (values) => async dispatch => {
     });
 }
 
-export const fetchJsFromCDN = (src, externals = []) => async dispatch => {
+export const fetchJsFromCDN = (src, externals = ['exit']) => async dispatch => {
     return new Promise((resolve, reject) => {
+        var js_exist = false
         var list = document.getElementsByTagName("script");
         for (var indx = 0; indx < list.length; indx++) {
             if (list[indx].src === src) {
                 resolve(externals.map(key => {
-                    return true
+                    js_exist = true
+                    return false
                 }))
             }
         }
-        const script = document.createElement('script')
-        script.setAttribute('src', src)
-        script.addEventListener('load', () => {
-            resolve(externals.map(key => {
-                const ext = window[key]
-                typeof ext === 'undefined' && console.warn(`No external named '${key}' in window`)
-                return ext
-            }))
-        })
-        script.addEventListener('error', reject)
-        document.body.appendChild(script)
+        if (!js_exist) {
+            const script = document.createElement('script')
+            script.setAttribute('src', src)
+            script.addEventListener('load', () => {
+                resolve(externals.map(key => {
+                    const ext = window[key]
+                    return ext
+                }))
+            })
+            script.addEventListener('error', reject)
+            document.body.appendChild(script)
+        }
     })
 }
