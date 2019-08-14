@@ -25,6 +25,14 @@ export const addTableData = (values) => async dispatch => {
 
 export const fetchJsFromCDN = (src, externals = []) => async dispatch => {
     return new Promise((resolve, reject) => {
+        var list = document.getElementsByTagName("script");
+        for (var indx = 0; indx < list.length; indx++) {
+            if (list[indx].src === src) {
+                resolve(externals.map(key => {
+                    return true
+                }))
+            }
+        }
         const script = document.createElement('script')
         script.setAttribute('src', src)
         script.addEventListener('load', () => {

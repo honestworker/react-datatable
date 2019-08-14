@@ -8,6 +8,7 @@ const CommonTable = lazy(() => import("./components/tbl"));
 const XlsxTable = lazy(() => import("./components/tblxlsx"));
 const FixedcolTable = lazy(() => import("./components/tblfixedcol"));
 const Frm = lazy(() => import("./components/form"));
+const NewEmployee = lazy(() => import("./components/newemployee"));
 
 const Routes = ({ location }) => {
   return (
@@ -19,6 +20,7 @@ const Routes = ({ location }) => {
           <Route path="/table2" component={waitFor(XlsxTable)} />
           <Route path="/table3" component={waitFor(FixedcolTable)} />
           <Route path="/form" component={waitFor(Frm)} />
+          <Route path="/new" component={NewEmployee} />
         </Switch>
       </Suspense>
     </div>
