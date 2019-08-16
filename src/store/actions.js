@@ -23,7 +23,7 @@ export const addTableData = (values) => async dispatch => {
 }
 
 export const fetchJsFromCDN = (srcs, externals = ['exit']) => async dispatch => {
-    return new Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
         for (var src_indx = 0; src_indx < srcs.length; src_indx++) {
             var js_exist = false;
             var list = document.getElementsByTagName("script");

@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getTableData } from '../store/actions';
 
-require('../styles/datatable.css');
-
 const $ = require("jquery");
 
 class TblXlsx extends Component {
@@ -20,19 +18,21 @@ class TblXlsx extends Component {
 
   dataTableInit = () => {
     this.$tbl = $(this.tblxlsx);
-    this.table = this.$tbl.DataTable({
-      data: this.props.dataSet,
-      columns: [
-        { title: "Name" },
-        { title: "Position" },
-        { title: "Office" },
-        { title: "Extn." },
-        { title: "Start date" },
-        { title: "Salary" }
-      ],
-      "dom": 'Bfrtip',
-      "buttons": ['csv', 'excel', 'pdfHtml5', 'print']
-    });
+    if (typeof this.$tbl.DataTable !== 'undefined') {
+      this.table = this.$tbl.DataTable({
+        data: this.props.dataSet,
+        columns: [
+          { title: "Name" },
+          { title: "Position" },
+          { title: "Office" },
+          { title: "Extn." },
+          { title: "Start date" },
+          { title: "Salary" }
+        ],
+        "dom": 'Bfrtip',
+        "buttons": ['csv', 'excel', 'pdfHtml5', 'print']
+      });
+    }
   };
 
   render() {

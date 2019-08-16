@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getTableData } from '../store/actions';
 
-require('../styles/datatable.css');
-
 const $ = require("jquery");
 
 class Tbl extends Component {
@@ -20,20 +18,22 @@ class Tbl extends Component {
 
   dataTableInit = () => {
     this.$tbl = $(this.tbl);
-    if (typeof this.table !== 'undefined') {
-      this.table.destroy();
+    if (typeof this.$tbl.DataTable !== 'undefined') {
+      if (typeof this.table !== 'undefined') {
+        this.table.destroy();
+      }
+      this.table = this.$tbl.DataTable({
+        data: this.props.dataSet,
+        columns: [
+          { title: "Name" },
+          { title: "Position" },
+          { title: "Office" },
+          { title: "Extn." },
+          { title: "Start date" },
+          { title: "Salary" }
+        ]
+      });
     }
-    this.table = this.$tbl.DataTable({
-      data: this.props.dataSet,
-      columns: [
-        { title: "Name" },
-        { title: "Position" },
-        { title: "Office" },
-        { title: "Extn." },
-        { title: "Start date" },
-        { title: "Salary" }
-      ]
-    });
   };
 
   render() {

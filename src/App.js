@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 
 class App extends Component {
   state = {
-    dataSet: []
+    dataSet: [],
+    imported: false
   };
 
   componentDidMount = () => {
