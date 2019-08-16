@@ -1,20 +1,15 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getTableData, fetchJsFromCDN } from '../store/actions';
+import { getTableData } from '../store/actions';
 
 require('../styles/fixedcolumntable.css');
 
 const $ = require("jquery");
-global.jQuery = $;
 
 class TblFixedCol extends Component {
   componentDidMount = () => {
     this.props.getTableData();
-    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js');
-    this.props.fetchJsFromCDN('https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js');
-    this.props.fetchJsFromCDN('https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js')
-      .then(resp => this.dataTableInit());
   };
 
   componentWillUnmount = () => {
@@ -25,6 +20,9 @@ class TblFixedCol extends Component {
 
   dataTableInit = () => {
     this.$tbl = $(this.tbl);
+    if (typeof this.table !== 'undefined') {
+      this.table.destroy();
+    }
     this.table = this.$tbl.DataTable({
       data: this.props.dataSet,
       columns: [
@@ -42,6 +40,7 @@ class TblFixedCol extends Component {
   };
 
   render() {
+    this.dataTableInit();
     return (
       <div className="fixed-table">
         <table
@@ -62,5 +61,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { getTableData, fetchJsFromCDN })(TblFixedCol));
-
+export default withRouter(connect(mapStateToProps, { getTableData })(TblFixedCol));

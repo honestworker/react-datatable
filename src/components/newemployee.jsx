@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import PickDate from "./datepicker";
-import axios from "axios";
+import { addTableData } from '../store/actions';
 
 const $ = require("jquery");
 
@@ -18,14 +19,8 @@ class NewEmployee extends Component {
       send_data.push(data.get(name));
     }
 
-    axios({
-        method: "post",
-        url: "http://localhost:3100/employee",
-        crossDomain: true,
-        data: send_data
-    }).then(resp => {
-        $("form")[0].reset();
-    });
+    this.props.addTableData(send_data);
+    $("form")[0].reset();
   };
 
   render() {
@@ -83,4 +78,10 @@ class NewEmployee extends Component {
   }
 }
 
-export default withRouter(NewEmployee);
+
+const mapStateToProps = state => {
+  return {
+  }
+}
+
+export default withRouter(connect(mapStateToProps, { addTableData })(NewEmployee));
